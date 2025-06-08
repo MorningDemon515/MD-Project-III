@@ -36,6 +36,9 @@
     <ClInclude Include="src\Figures\Rectangle.h">
       <Filter>Figures</Filter>
     </ClInclude>
+    <ClInclude Include="src\Figures\Cube.h">
+      <Filter>Figures</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="MDP-III.rc">
@@ -70,6 +73,9 @@
       <Filter>Figures</Filter>
     </ClCompile>
     <ClCompile Include="src\Figures\Rectangle.cpp">
+      <Filter>Figures</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Figures\Cube.cpp">
       <Filter>Figures</Filter>
     </ClCompile>
   </ItemGroup>

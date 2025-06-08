@@ -144,6 +144,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="src\Figures\Cube.h" />
     <ClInclude Include="src\Figures\Rectangle.h" />
     <ClInclude Include="src\Figures\Triangle.h" />
     <ClInclude Include="src\Main.h" />
@@ -158,6 +159,7 @@
     <Image Include="small.ico" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Figures\Cube.cpp" />
     <ClCompile Include="src\Figures\Rectangle.cpp" />
     <ClCompile Include="src\Figures\Triangle.cpp" />
     <ClCompile Include="src\Graphics.cpp" />
