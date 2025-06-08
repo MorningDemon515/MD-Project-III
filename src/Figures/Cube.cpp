@@ -86,7 +86,7 @@ Cube::~Cube()
 
 }
 
-void Cube::Draw(XMMATRIX WorldMatrix, XMMATRIX ViewMatrix)
+void Cube::Draw(XMMATRIX WorldMatrix, XMMATRIX  ViewMatrix)
 {
     Shader shader = Shader("shader/Cube.VS", "shader/Cube.PS",
         "VS_Main", "PS_Main");
