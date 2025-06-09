@@ -13,7 +13,7 @@ struct Cube_Vertex {
 };
 
 struct MatrixBufferType {
-    XMMATRIX World;
+    MyMatrix World;
     XMMATRIX View;
     XMMATRIX Projection;
 };
@@ -86,7 +86,7 @@ Cube::~Cube()
 
 }
 
-void Cube::Draw(XMMATRIX WorldMatrix, XMMATRIX  ViewMatrix)
+void Cube::Draw(MyMatrix WorldMatrix, XMMATRIX  ViewMatrix)
 {
     Shader shader = Shader("shader/Cube.VS", "shader/Cube.PS",
         "VS_Main", "PS_Main");
@@ -94,7 +94,6 @@ void Cube::Draw(XMMATRIX WorldMatrix, XMMATRIX  ViewMatrix)
     shader.SetVertexShader(Cube_InputLayout, 1);
     shader.SetPixelShader();
 
-    XMMATRIX worldMatrix = WorldMatrix;
     XMMATRIX viewMatrix = ViewMatrix;
 
     XMMATRIX projectionMatrix = XMMatrixPerspectiveFovLH(
@@ -110,7 +109,7 @@ void Cube::Draw(XMMATRIX WorldMatrix, XMMATRIX  ViewMatrix)
 
     MatrixBufferType* dataPtr = (MatrixBufferType*)cbuffer.mappedResource.pData;
 
-    dataPtr->World = XMMatrixTranspose(worldMatrix);
+    dataPtr->World = WorldMatrix;//XMMatrixTranspose(worldMatrix);
     dataPtr->View = XMMatrixTranspose(viewMatrix);
     dataPtr->Projection = XMMatrixTranspose(projectionMatrix);
 

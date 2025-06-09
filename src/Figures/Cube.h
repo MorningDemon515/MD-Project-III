@@ -7,6 +7,11 @@
 
 using namespace DirectX;
 
+struct MyMatrix
+{
+    float m[16];
+};
+
 class Cube
 {
 private:
@@ -16,7 +21,7 @@ public:
     Cube();
     ~Cube();
 
-    void Draw(XMMATRIX WorldMatrix, XMMATRIX ViewMatrix);
+    void Draw(MyMatrix WorldMatrix, XMMATRIX ViewMatrix);
 
 };
 

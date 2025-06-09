@@ -17,7 +17,6 @@ extern ID3D11DepthStencilView* DepthStencilView;
 
 extern ID3D11RasterizerState* rsState;
 
-
 void InitGraphics();
 void Clean_Graphics();
 
@@ -40,11 +39,11 @@ void Scene::Draw()
 
     Cube cube = Cube();
     
-    XMMATRIX WorldMatrix = {
-           1.0f,0.0f,0.0f,0.0f,
-           0.0f,1.0f,0.0f,0.0f,
-           0.0f,0.0f,1.0f,0.0f,
-           1.0f,0.0f,0.0f,1.0f
+    MyMatrix WorldMatrix = {
+        1.0f,0.0f, 0.0f,1.0f,
+        0.0f,1.0f,0.0f,0.0f,
+        0.0f,0.0f,1.0f,0.0f,
+        0.0f,0.0f,0.0f,1.0f
     };
 
     cube.Draw(WorldMatrix,
