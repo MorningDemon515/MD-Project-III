@@ -39,18 +39,17 @@ void Scene::Draw()
 
     Cube cube = Cube();
     
-    MyMatrix WorldMatrix = {
-        1.0f,0.0f, 0.0f,1.0f,
-        0.0f,1.0f,0.0f,0.0f,
-        0.0f,0.0f,1.0f,0.0f,
-        0.0f,0.0f,0.0f,1.0f
-    };
+    MD_MATH_MATRIX WorldMatrix = MD_Math_TranslationMatrix(1.0f,0.0f,0.0f);
+
+    MD_MATH_VECTOR3 eye = { 0.0f, 0.0f, -5.0f };
+    MD_MATH_VECTOR3 target = { 0.0f, 0.0f, 0.0f };
+    MD_MATH_VECTOR3 up = { 0.0f, 1.0f, 0.0f };
 
     cube.Draw(WorldMatrix,
-        XMMatrixLookAtLH(
-            XMVectorSet(0.0f, 0.0f, -5.0f, 1.0f),
-            XMVectorSet(0.0f, 0.0f, 0.0f, 1.0f),
-            XMVectorSet(0.0f, 1.0f, 0.0f, 1.0f)));
+        MD_Math_ViewMatrixLH(
+            eye ,
+            target,
+            up));
 
     SwapChain->Present(0, 0);
 }

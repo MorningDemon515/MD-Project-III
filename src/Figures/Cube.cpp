@@ -13,9 +13,9 @@ struct Cube_Vertex {
 };
 
 struct MatrixBufferType {
-    MyMatrix World;
-    XMMATRIX View;
-    XMMATRIX Projection;
+    MD_MATH_MATRIX World;
+    MD_MATH_MATRIX View;
+    MD_MATH_MATRIX Projection;
 };
 
 const D3D11_INPUT_ELEMENT_DESC Cube_InputLayout[1] = {
@@ -86,7 +86,7 @@ Cube::~Cube()
 
 }
 
-void Cube::Draw(MyMatrix WorldMatrix, XMMATRIX  ViewMatrix)
+void Cube::Draw(MD_MATH_MATRIX WorldMatrix, MD_MATH_MATRIX  ViewMatrix)
 {
     Shader shader = Shader("shader/Cube.VS", "shader/Cube.PS",
         "VS_Main", "PS_Main");
@@ -94,10 +94,10 @@ void Cube::Draw(MyMatrix WorldMatrix, XMMATRIX  ViewMatrix)
     shader.SetVertexShader(Cube_InputLayout, 1);
     shader.SetPixelShader();
 
-    XMMATRIX viewMatrix = ViewMatrix;
+    MD_MATH_MATRIX viewMatrix = ViewMatrix;
 
-    XMMATRIX projectionMatrix = XMMatrixPerspectiveFovLH(
-        XMConvertToRadians(45.0f),
+    MD_MATH_MATRIX projectionMatrix = MD_Math_PerspectiveMatrixLH(
+        MD_Math_AngularToRadian(45.0f),
         (float)WINDOW_WIDTH / (float)WINDOW_HEIGHT,
         0.1f,
         100.0f
@@ -109,9 +109,9 @@ void Cube::Draw(MyMatrix WorldMatrix, XMMATRIX  ViewMatrix)
 
     MatrixBufferType* dataPtr = (MatrixBufferType*)cbuffer.mappedResource.pData;
 
-    dataPtr->World = WorldMatrix;//XMMatrixTranspose(worldMatrix);
-    dataPtr->View = XMMatrixTranspose(viewMatrix);
-    dataPtr->Projection = XMMatrixTranspose(projectionMatrix);
+    dataPtr->World = WorldMatrix;
+    dataPtr->View = viewMatrix;
+    dataPtr->Projection = projectionMatrix;
 
     cbuffer.End();
     cbuffer.Set();

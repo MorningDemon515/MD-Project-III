@@ -3,14 +3,7 @@
 
 #include <d3d11.h>
 
-#include <DirectXMath.h>
-
-using namespace DirectX;
-
-struct MyMatrix
-{
-    float m[16];
-};
+#include "../MD_Math.h"
 
 class Cube
 {
@@ -21,7 +14,7 @@ public:
     Cube();
     ~Cube();
 
-    void Draw(MyMatrix WorldMatrix, XMMATRIX ViewMatrix);
+    void Draw(MD_MATH_MATRIX WorldMatrix, MD_MATH_MATRIX ViewMatrix);
 
 };
 
