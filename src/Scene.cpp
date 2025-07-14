@@ -17,6 +17,8 @@ extern ID3D11DepthStencilView* DepthStencilView;
 
 //extern ID3D11RasterizerState* rsState;
 
+extern ID3D11BlendState* BlendState;
+
 void InitGraphics();
 void Clean_Graphics();
 
@@ -36,6 +38,10 @@ void Scene::Draw()
     //Context->RSSetState(rsState);
     Context->ClearRenderTargetView(RenderTargetView, clearColor);
     Context->ClearDepthStencilView(DepthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
+
+    float blendFactor[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
+    UINT sampleMask = 0xffffffff;
+    Context->OMSetBlendState(BlendState, blendFactor, sampleMask);
 
     /*
     Cube cube = Cube();

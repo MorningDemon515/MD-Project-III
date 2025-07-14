@@ -10,7 +10,7 @@
 extern ID3D11Device* Device;
 extern ID3D11DeviceContext* Context;
 
-Texture tex1 = Texture();
+MultiTexture tex = MultiTexture();
 
 struct Rectangle_Vertex {
     float x, y, z;
@@ -30,8 +30,7 @@ const D3D11_INPUT_ELEMENT_DESC Rectangle_InputLayout[2] = {
 
 Rectangle_::Rectangle_()
 {
-    tex1.LoadFile("resources/image.png");
-
+    tex.LoadFile("resources/image.png","resources/image.jpg");
     Rectangle_Vertex vertices[] = {
         { -0.5f,0.5f,0.0f,  0.0f,0.0f},
         { 0.5f,0.5f,0.0f,   1.0f,0.0f},
@@ -72,7 +71,7 @@ Rectangle_::~Rectangle_()
 
 void Rectangle_::Draw(MD_MATH_MATRIX WorldMatrix, MD_MATH_MATRIX  ViewMatrix)
 {
-    Shader shader = Shader("shader/Rectangle.VS", "shader/Rectangle.PS",
+    Shader shader = Shader("shader/Multitexture.VS", "shader/Multitexture.PS",
         "VS_Main", "PS_Main");
 
     ConstantBuffer cbuffer = ConstantBuffer(sizeof(Rectangle_MatrixBufferType));
@@ -103,7 +102,7 @@ void Rectangle_::Draw(MD_MATH_MATRIX WorldMatrix, MD_MATH_MATRIX  ViewMatrix)
 
     Context->IASetIndexBuffer(IndexBuffer, DXGI_FORMAT_R16_UINT, 0);
 
-    tex1.Set();
+    tex.Set();
 
     Context->DrawIndexed(6, 0, 0);
 

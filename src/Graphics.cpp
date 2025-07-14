@@ -12,6 +12,7 @@ ID3D11RenderTargetView* RenderTargetView;
 ID3D11DepthStencilView* DepthStencilView;
 
 //ID3D11RasterizerState* rsState;
+ID3D11BlendState* BlendState = nullptr;
 
 void InitGraphics()
 {
@@ -99,6 +100,21 @@ void InitGraphics()
 
     //Device->CreateRasterizerState(&rsDesc, &rsState);
 
+    D3D11_BLEND_DESC blendDesc = {};
+    blendDesc.AlphaToCoverageEnable = false;
+    blendDesc.IndependentBlendEnable = false;
+
+    blendDesc.RenderTarget[0].BlendEnable = true;
+    blendDesc.RenderTarget[0].SrcBlend = D3D11_BLEND_SRC_ALPHA;        
+    blendDesc.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;  
+    blendDesc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;          
+    blendDesc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;         
+    blendDesc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ZERO;       
+    blendDesc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;       
+    blendDesc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL; 
+
+    Device->CreateBlendState(&blendDesc, &BlendState);
+
     D3D11_VIEWPORT vp;
     vp.Width = WINDOW_WIDTH; vp.Height = WINDOW_HEIGHT;
     vp.MinDepth = 0.0f; vp.MaxDepth = 1.0f;
@@ -111,6 +127,7 @@ void InitGraphics()
 void Clean_Graphics()
 {
     //rsState->Release();
+    BlendState->Release();
 
 	RenderTargetView->Release();
 	DepthStencilView->Release();
