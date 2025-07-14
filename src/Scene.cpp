@@ -22,9 +22,12 @@ extern ID3D11BlendState* BlendState;
 void InitGraphics();
 void Clean_Graphics();
 
+Cube cube = Cube();
+
 Scene::Scene()
 {
     InitGraphics();
+
 }
 
 Scene::~Scene()
@@ -42,9 +45,6 @@ void Scene::Draw()
     float blendFactor[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
     UINT sampleMask = 0xffffffff;
     Context->OMSetBlendState(BlendState, blendFactor, sampleMask);
-
-    /*
-    Cube cube = Cube();
 
     MD_MATH_MATRIX Rx, Ry;
 
@@ -68,8 +68,9 @@ void Scene::Draw()
             eye ,
             target,
             up));
-    */
+    
 
+    /*
     MD_MATH_MATRIX WorldMatrix = MD_Math_IdentityMatrix;
 
     MD_MATH_VECTOR3 eye = { 0.0f, 0.0f, -5.0f };
@@ -82,7 +83,7 @@ void Scene::Draw()
             eye,
             target,
             up));
-
+            */
 
     SwapChain->Present(0, 0);
 }

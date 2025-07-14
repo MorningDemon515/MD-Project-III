@@ -10,6 +10,8 @@ extern ID3D11DeviceContext* Context;
 
 extern HWND WindowHanled;
 
+extern bool run;
+
 void Texture::LoadFile(const char* file)
 {
     int width, height, channels;
@@ -18,6 +20,7 @@ void Texture::LoadFile(const char* file)
     if (!image)
     {
         ErrorMessage_2(WindowHanled, "Cann't Load File");
+        run = false;
     }
 
     D3D11_TEXTURE2D_DESC desc = { 0 };
@@ -88,6 +91,7 @@ void MultiTexture::LoadFile(const char* f1, const char* f2)
     if (!image1)
     {
         ErrorMessage_2(WindowHanled, "Canm't Load File");
+        run = false;
     }
 
     D3D11_TEXTURE2D_DESC desc1 = { 0 };
@@ -120,6 +124,7 @@ void MultiTexture::LoadFile(const char* f1, const char* f2)
     if (!image2)
     {
         ErrorMessage_2(WindowHanled, "Canm't Load File");
+        run = false;
     }
 
     D3D11_TEXTURE2D_DESC desc2 = { 0 };

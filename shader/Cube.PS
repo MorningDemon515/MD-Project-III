@@ -1,12 +1,17 @@
+Texture2D texture0 : register(t0);
+SamplerState sampler0 : register(s0);
+
 struct VS_INPUT {
     float3 pos : POSITION;
+	float2 texcoord : TEXCOORD;
 };
 
 struct VS_OUTPUT {
     float4 pos : SV_POSITION;
+	float2 texcoord : TEXCOORD;
 };
 
 float4 PS_Main(VS_OUTPUT input) : SV_TARGET
 {
-    return float4(0.0f,1.0f,0.0f,1.0f);
+    return texture0.Sample(sampler0, input.texcoord);
 }

@@ -5,10 +5,14 @@
 
 #include "../MD_Math.h"
 
+#include "../Texture.h"
+
 class Cube
 {
 private:
     ID3D11Buffer* CubeBuffer;
+
+    Texture tex;
 
 public:
     Cube();

@@ -10,6 +10,7 @@ extern ID3D11DeviceContext* Context;
 
 struct Cube_Vertex {
     float x, y, z;
+    float u,v;
 };
 
 struct MatrixBufferType {
@@ -18,55 +19,59 @@ struct MatrixBufferType {
     MD_MATH_MATRIX Projection;
 };
 
-const D3D11_INPUT_ELEMENT_DESC Cube_InputLayout[1] = {
+const D3D11_INPUT_ELEMENT_DESC Cube_InputLayout[2] = {
     { "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+    { "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 }
 };
 
 Cube::Cube()
 {
+    tex = Texture();
+    tex.LoadFile("resources/image.jpg");
+
     Cube_Vertex vertices[] = {
 
-        {-0.5f, -0.5f, -0.5f},
-        {-0.5f,  0.5f, -0.5f},
-        { 0.5f,  0.5f, -0.5f},
-        {-0.5f, -0.5f, -0.5f},
-        { 0.5f,  0.5f, -0.5f},
-        { 0.5f, -0.5f, -0.5f},
+        {-0.5f, -0.5f, -0.5f, 0.0f, 0.0f},
+        {-0.5f,  0.5f, -0.5f, 0.0f, 1.0f},
+        { 0.5f,  0.5f, -0.5f, 1.0f, 1.0f},
+        {-0.5f, -0.5f, -0.5f, 0.0f, 0.0f},
+        { 0.5f,  0.5f, -0.5f, 1.0f, 1.0f},
+        { 0.5f, -0.5f, -0.5f, 1.0f, 0.0f},
 
-        {-0.5f, -0.5f,  0.5f},
-        { 0.5f, -0.5f,  0.5f},
-        { 0.5f,  0.5f,  0.5f},
-        {-0.5f, -0.5f,  0.5f},
-        { 0.5f,  0.5f,  0.5f},
-        {-0.5f,  0.5f,  0.5f},
+        {-0.5f, -0.5f,  0.5f, 0.0f, 0.0f},
+        { 0.5f, -0.5f,  0.5f, 1.0f, 0.0f},
+        { 0.5f,  0.5f,  0.5f, 1.0f, 1.0f},
+        {-0.5f, -0.5f,  0.5f, 0.0f, 0.0f},
+        { 0.5f,  0.5f,  0.5f, 1.0f, 1.0f},
+        {-0.5f,  0.5f,  0.5f, 0.0f, 1.0f},
 
-        {-0.5f, -0.5f, -0.5f},
-        {-0.5f,  0.5f,  0.5f},
-        {-0.5f,  0.5f, -0.5f},
-        {-0.5f, -0.5f, -0.5f},
-        {-0.5f, -0.5f,  0.5f},
-        {-0.5f,  0.5f,  0.5f},
+        {-0.5f, -0.5f, -0.5f, 1.0f, 0.0f},
+        {-0.5f,  0.5f,  0.5f, 0.0f, 1.0f},
+        {-0.5f,  0.5f, -0.5f, 1.0f, 1.0f},
+        {-0.5f, -0.5f, -0.5f, 1.0f, 0.0f},
+        {-0.5f, -0.5f,  0.5f, 0.0f, 0.0f},
+        {-0.5f,  0.5f,  0.5f, 0.0f, 1.0f},
 
-        {0.5f, -0.5f, -0.5f},
-        {0.5f,  0.5f, -0.5f},
-        {0.5f,  0.5f,  0.5f},
-        {0.5f, -0.5f, -0.5f},
-        {0.5f,  0.5f,  0.5f},
-        {0.5f, -0.5f,  0.5f},
+        {0.5f, -0.5f, -0.5f, 0.0f, 0.0f},
+        {0.5f,  0.5f, -0.5f, 0.0f, 1.0f},
+        {0.5f,  0.5f,  0.5f, 1.0f, 1.0f},
+        {0.5f, -0.5f, -0.5f, 0.0f, 0.0f},
+        {0.5f,  0.5f,  0.5f, 1.0f, 1.0f},
+        {0.5f, -0.5f,  0.5f, 1.0f, 0.0f},
 
-        {-0.5f, -0.5f, -0.5f},
-        { 0.5f, -0.5f, -0.5f},
-        { 0.5f, -0.5f,  0.5f},
-        {-0.5f, -0.5f, -0.5f},
-        { 0.5f, -0.5f,  0.5f},
-        {-0.5f, -0.5f,  0.5f},
+        {-0.5f, -0.5f, -0.5f, 0.0f, 1.0f}, 
+        { 0.5f, -0.5f, -0.5f, 1.0f, 1.0f},
+        { 0.5f, -0.5f,  0.5f, 1.0f, 0.0f},
+        {-0.5f, -0.5f, -0.5f, 0.0f, 1.0f},
+        { 0.5f, -0.5f,  0.5f, 1.0f, 0.0f},
+        {-0.5f, -0.5f,  0.5f, 0.0f, 0.0f},
 
-        {-0.5f,  0.5f, -0.5f},
-        {-0.5f,  0.5f,  0.5f},
-        { 0.5f,  0.5f,  0.5f},
-        {-0.5f,  0.5f, -0.5f},
-        { 0.5f,  0.5f,  0.5f},
-        { 0.5f,  0.5f, -0.5f}
+        {-0.5f,  0.5f, -0.5f, 0.0f, 1.0f},
+        {-0.5f,  0.5f,  0.5f, 0.0f, 0.0f},
+        { 0.5f,  0.5f,  0.5f, 1.0f, 0.0f},
+        {-0.5f,  0.5f, -0.5f, 0.0f, 1.0f},
+        { 0.5f,  0.5f,  0.5f, 1.0f, 0.0f},
+        { 0.5f,  0.5f, -0.5f, 1.0f, 1.0f}
     };
 
     D3D11_BUFFER_DESC vbd = { 0 };
@@ -92,7 +97,7 @@ void Cube::Draw(MD_MATH_MATRIX WorldMatrix, MD_MATH_MATRIX  ViewMatrix)
     Shader shader = Shader("shader/Cube.VS", "shader/Cube.PS",
         "VS_Main", "PS_Main");
 
-    shader.SetVertexShader(Cube_InputLayout, 1);
+    shader.SetVertexShader(Cube_InputLayout, 2);
     shader.SetPixelShader();
 
     MD_MATH_MATRIX viewMatrix = ViewMatrix;
@@ -121,6 +126,8 @@ void Cube::Draw(MD_MATH_MATRIX WorldMatrix, MD_MATH_MATRIX  ViewMatrix)
     UINT offset = 0;
     Context->IASetVertexBuffers(0, 1, &CubeBuffer, &stride, &offset);
     Context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+    tex.Set();
 
     Context->Draw(36, 0);
 
