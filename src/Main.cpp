@@ -49,3 +49,14 @@ void ErrorMessage_2(HWND hwnd, const char* message)
 {
     MessageBoxA(hwnd, message, "Engine Error!", MB_OK);
 }
+
+float TimeDelta()
+{
+    static float lastTime = 0.0f;
+    static float currentTime = 0.0f;
+    currentTime = (float)clock() / CLOCKS_PER_SEC;
+    float deltaTime = currentTime - lastTime;
+    lastTime = currentTime;
+    return deltaTime;
+
+}

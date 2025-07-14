@@ -11,7 +11,7 @@ IDXGISwapChain* SwapChain;
 ID3D11RenderTargetView* RenderTargetView;
 ID3D11DepthStencilView* DepthStencilView;
 
-ID3D11RasterizerState* rsState;
+//ID3D11RasterizerState* rsState;
 
 void InitGraphics()
 {
@@ -92,12 +92,12 @@ void InitGraphics()
 
     Context->OMSetRenderTargets(1, &RenderTargetView, DepthStencilView);
 
-    D3D11_RASTERIZER_DESC rsDesc = {};
-    rsDesc.FillMode = D3D11_FILL_SOLID;
-    rsDesc.CullMode = D3D11_CULL_NONE;
-    rsDesc.FrontCounterClockwise = FALSE;
+    //D3D11_RASTERIZER_DESC rsDesc = {};
+    //rsDesc.FillMode = D3D11_FILL_SOLID;
+    //rsDesc.CullMode = D3D11_CULL_NONE;
+    //rsDesc.FrontCounterClockwise = FALSE;
 
-    Device->CreateRasterizerState(&rsDesc, &rsState);
+    //Device->CreateRasterizerState(&rsDesc, &rsState);
 
     D3D11_VIEWPORT vp;
     vp.Width = WINDOW_WIDTH; vp.Height = WINDOW_HEIGHT;
@@ -110,7 +110,7 @@ void InitGraphics()
 
 void Clean_Graphics()
 {
-    rsState->Release();
+    //rsState->Release();
 
 	RenderTargetView->Release();
 	DepthStencilView->Release();

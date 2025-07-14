@@ -39,6 +39,15 @@
     <ClInclude Include="src\Figures\Cube.h">
       <Filter>Figures</Filter>
     </ClInclude>
+    <ClInclude Include="src\MD_Math.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\stb_image.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Texture.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="MDP-III.rc">
@@ -77,6 +86,12 @@
     </ClCompile>
     <ClCompile Include="src\Figures\Cube.cpp">
       <Filter>Figures</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MD_Math.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Texture.cpp">
+      <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

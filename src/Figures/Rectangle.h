@@ -3,6 +3,8 @@
 
 #include <d3d11.h>
 
+#include "../MD_Math.h"
+
 class Rectangle_
 {
 private:
@@ -13,7 +15,7 @@ public:
     Rectangle_();
     ~Rectangle_();
 
-    void Draw();
+    void Draw(MD_MATH_MATRIX WorldMatrix, MD_MATH_MATRIX  ViewMatrix);
 
 };
 

@@ -5,24 +5,38 @@
 
 #include "../Main.h"
 
+#include "../Texture.h"
+
 extern ID3D11Device* Device;
 extern ID3D11DeviceContext* Context;
 
+Texture tex1 = Texture();
+
 struct Rectangle_Vertex {
     float x, y, z;
+    float u, v;
 };
 
-const D3D11_INPUT_ELEMENT_DESC Rectangle_InputLayout[1] = {
+struct Rectangle_MatrixBufferType {
+    MD_MATH_MATRIX World;
+    MD_MATH_MATRIX View;
+    MD_MATH_MATRIX Projection;
+};
+
+const D3D11_INPUT_ELEMENT_DESC Rectangle_InputLayout[2] = {
     { "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+    { "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 }
 };
 
 Rectangle_::Rectangle_()
 {
+    tex1.LoadFile("resources/image.png");
+
     Rectangle_Vertex vertices[] = {
-        { -0.5f,0.5f,0.0f},
-        { 0.5f,0.5f,0.0f},
-        { -0.5f,-0.5f,0.0f},
-        { 0.5f,-0.5f,0.0f}
+        { -0.5f,0.5f,0.0f,  0.0f,0.0f},
+        { 0.5f,0.5f,0.0f,   1.0f,0.0f},
+        { -0.5f,-0.5f,0.0f, 0.0f,1.0f},
+        { 0.5f,-0.5f,0.0f,  1.0f,1.0f}
     };
 
     D3D11_BUFFER_DESC vbd = { 0 };
@@ -51,16 +65,35 @@ Rectangle_::Rectangle_()
 
 Rectangle_::~Rectangle_()
 {
+
     RectangleBuffer->Release();
     IndexBuffer->Release();
 }
 
-void Rectangle_::Draw()
+void Rectangle_::Draw(MD_MATH_MATRIX WorldMatrix, MD_MATH_MATRIX  ViewMatrix)
 {
-    Shader shader = Shader("shader/Triangle.VS", "shader/Triangle.PS",
+    Shader shader = Shader("shader/Rectangle.VS", "shader/Rectangle.PS",
         "VS_Main", "PS_Main");
 
-    shader.SetVertexShader(Rectangle_InputLayout, 1);
+    ConstantBuffer cbuffer = ConstantBuffer(sizeof(Rectangle_MatrixBufferType));
+
+    cbuffer.Begin();
+
+    Rectangle_MatrixBufferType* dataPtr = (Rectangle_MatrixBufferType*)cbuffer.mappedResource.pData;
+
+    dataPtr->World = WorldMatrix;
+    dataPtr->View = ViewMatrix;
+    dataPtr->Projection = MD_Math_PerspectiveMatrixLH(
+        MD_Math_AngularToRadian(45.0f),
+        (float)WINDOW_WIDTH / (float) WINDOW_HEIGHT,
+        0.1f,
+        100.0f
+    );
+
+    cbuffer.End();
+    cbuffer.Set();
+
+    shader.SetVertexShader(Rectangle_InputLayout, 2);
     shader.SetPixelShader();
 
     UINT stride = sizeof(Rectangle_Vertex);
@@ -69,6 +102,9 @@ void Rectangle_::Draw()
     Context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
     Context->IASetIndexBuffer(IndexBuffer, DXGI_FORMAT_R16_UINT, 0);
+
+    tex1.Set();
+
     Context->DrawIndexed(6, 0, 0);
 
 }
